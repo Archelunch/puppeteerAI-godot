@@ -18,13 +18,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SceneManager="*res://addons/scene_manager/scene_manager.tscn"
-Scenes="*res://addons/scene_manager/scenes.gd"
 Constants="*res://src/autoloads/Constants.gd"
 EventBus="*res://src/autoloads/EventBus.gd"
 DataBase="*res://src/autoloads/DataBase.gd"
 AITexts="*res://src/autoloads/AITexts.gd"
 Templater="*res://src/entities/Templater.gd"
+SceneManager="*res://addons/scene_manager/scene_manager.tscn"
+Scenes="*res://addons/scene_manager/scenes.gd"
 
 [display]
 

@@ -1,12 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://cm6incmr0oxgq"]
+[gd_scene load_steps=7 format=3 uid="uid://cm6incmr0oxgq"]
 
 [ext_resource type="Script" path="res://src/scenes/GlobalMap.gd" id="1_2mytb"]
 [ext_resource type="Texture2D" uid="uid://756rjbpc1m0f" path="res://assets/ui/Maps/vold_realm.png" id="1_hac8c"]
 [ext_resource type="PackedScene" uid="uid://c6ylik8fo25tf" path="res://src/entities/CrewMap.tscn" id="2_if8aq"]
+[ext_resource type="Script" path="res://src/scenes/AreaEvent.gd" id="4_q4e0r"]
 
-[node name="GlobalMap" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3if7"]
+size = Vector2(122, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8hbfm"]
+size = Vector2(118, 90)
+
+[node name="GlobalMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_2mytb")
 scene = "Battle"
+clickable = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -29,4 +43,123 @@ texture = ExtResource("1_hac8c")
 stretch_mode = 1
 
 [node name="CrewMap" parent="." instance=ExtResource("2_if8aq")]
-position = Vector2(767, 883)
+position = Vector2(569, 984)
+
+[node name="Areas" type="Node2D" parent="."]
+
+[node name="Town1" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Town1"]
+position = Vector2(759, 978)
+shape = SubResource("RectangleShape2D_k3if7")
+
+[node name="Town2" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Town2"]
+position = Vector2(964, 976)
+shape = SubResource("RectangleShape2D_k3if7")
+
+[node name="Town3" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Town3"]
+position = Vector2(860, 788)
+shape = SubResource("RectangleShape2D_k3if7")
+
+[node name="Town4" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Town4"]
+position = Vector2(1063, 559)
+shape = SubResource("RectangleShape2D_k3if7")
+
+[node name="Town5" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Town5"]
+position = Vector2(135, 217)
+shape = SubResource("RectangleShape2D_k3if7")
+
+[node name="Town6" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Town6"]
+position = Vector2(1781, 146)
+shape = SubResource("RectangleShape2D_k3if7")
+
+[node name="Town7" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Town7"]
+position = Vector2(1989, 49)
+shape = SubResource("RectangleShape2D_k3if7")
+
+[node name="Town8" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Town8"]
+position = Vector2(1475, 22)
+shape = SubResource("RectangleShape2D_k3if7")
+
+[node name="Battle1" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Battle1"]
+position = Vector2(1373, 513)
+shape = SubResource("RectangleShape2D_8hbfm")
+
+[node name="Battle2" type="Area2D" parent="Areas"]
+script = ExtResource("4_q4e0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Areas/Battle2"]
+position = Vector2(1065, 107)
+shape = SubResource("RectangleShape2D_8hbfm")
+
+[node name="EnterDialog" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="EnterDialog"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.5
+offset_top = -13.0
+offset_right = 60.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="EnterDialog/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EnterDialog/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EnterDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "This is a test"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EnterDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="YesButton" type="Button" parent="EnterDialog/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Yes"
+
+[connection signal="gui_input" from="." to="CrewMap" method="_on_global_map_gui_input"]
+[connection signal="pressed" from="EnterDialog/MarginContainer/VBoxContainer/HBoxContainer/YesButton" to="." method="_on_yes_button_pressed"]

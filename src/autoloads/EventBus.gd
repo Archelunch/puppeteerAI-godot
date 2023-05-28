@@ -36,7 +36,8 @@ func _process_events():
 	var num = min(events_at_once, events.size())
 	for i in range(0, num):
 		var event = events.pop_front()
-		event.receiver.call(event.method, event.value)
+		if is_instance_valid(event.receiver):
+			event.receiver.call(event.method, event.value)
 
 func publish(event_name, value = null):
 	var event_receivers = receivers[event_name]

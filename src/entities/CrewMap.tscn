@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6ylik8fo25tf"]
+[gd_scene load_steps=4 format=3 uid="uid://c6ylik8fo25tf"]
 
 [ext_resource type="Texture2D" uid="uid://bbt6x6hqoy711" path="res://assets/sprites/Units/Boss Mythical Knight Goldnharl.png" id="1_h1fwe"]
 [ext_resource type="Script" path="res://src/entities/CrewMap.gd" id="1_tb5ww"]
 
-[node name="CrewMap" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bwamb"]
+size = Vector2(150, 100)
+
+[node name="CrewMap" type="Area2D"]
 script = ExtResource("1_tb5ww")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -11,3 +14,7 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 texture = ExtResource("1_h1fwe")
 region_enabled = true
 region_rect = Rect2(70, -10, 180, 110)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-15, 5)
+shape = SubResource("RectangleShape2D_bwamb")
