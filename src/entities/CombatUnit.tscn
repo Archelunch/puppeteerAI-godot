@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://43m8qbo7e31l"]
+
+[ext_resource type="Script" path="res://src/entities/CombatUnit.gd" id="1_dq586"]
+[ext_resource type="Texture2D" uid="uid://bhjefnp5n3j2d" path="res://assets/sprites/Units/Medieval Bandit Child.png" id="2_15j2l"]
+[ext_resource type="Shader" path="res://src/shaders/Hit.gdshader" id="2_38qpd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vbhar"]
+shader = ExtResource("2_38qpd")
+
+[sub_resource type="SystemFont" id="SystemFont_iwjmg"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_3gr4p"]
+line_spacing = 10.0
+font = SubResource("SystemFont_iwjmg")
+font_size = 24
+outline_size = 1
+outline_color = Color(0, 1, 1, 1)
+
+[node name="CombatUnit" type="Node2D"]
+scale = Vector2(0.9, 0.9)
+script = ExtResource("1_dq586")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_vbhar")
+texture = ExtResource("2_15j2l")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -32.2222
+offset_top = -135.556
+offset_right = 37.7778
+offset_bottom = -91.5556
+text = "NAME"
+label_settings = SubResource("LabelSettings_3gr4p")
+vertical_alignment = 1
+
+[node name="Actions" type="Node" parent="."]
+
+[node name="Status" type="Node" parent="."]

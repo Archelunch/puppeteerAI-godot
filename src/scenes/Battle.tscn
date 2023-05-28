@@ -1,0 +1,112 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhyet77w3ytdl"]
+
+[ext_resource type="Script" path="res://src/scenes/Battle.gd" id="1_28e3e"]
+[ext_resource type="FontVariation" uid="uid://d2b8bo6ytpt2i" path="res://assets/fonts/default_bold.tres" id="1_u2sdt"]
+[ext_resource type="Texture2D" uid="uid://bjhwlh6unwxp4" path="res://assets/ui/Backgrounds/game_background_1.png" id="2_am7mg"]
+[ext_resource type="PackedScene" uid="uid://43m8qbo7e31l" path="res://src/entities/CombatUnit.tscn" id="4_ko3f7"]
+[ext_resource type="PackedScene" uid="uid://bdo2ywqfdg436" path="res://src/ui/FloatingText.tscn" id="4_oc8op"]
+
+[node name="Battle" type="Node2D"]
+script = ExtResource("1_28e3e")
+
+[node name="BattleUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="Sprite2D" parent="BattleUI"]
+position = Vector2(961, 539.5)
+scale = Vector2(0.499479, 0.500463)
+texture = ExtResource("2_am7mg")
+
+[node name="MarginContainer" type="MarginContainer" parent="BattleUI"]
+layout_mode = 0
+offset_left = 307.0
+offset_top = 859.0
+offset_right = 1653.0
+offset_bottom = 1066.0
+
+[node name="LogBackground" type="ColorRect" parent="BattleUI/MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Log" type="RichTextLabel" parent="BattleUI/MarginContainer/LogBackground"]
+layout_mode = 2
+offset_left = 63.0
+offset_top = 6.0
+offset_right = 1283.0
+offset_bottom = 202.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("1_u2sdt")
+theme_override_font_sizes/normal_font_size = 24
+text = "LET'S START THIS BATTLE!"
+visible_characters = 0
+visible_characters_behavior = 1
+visible_ratio = 0.0
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Positions" type="Node2D" parent="."]
+
+[node name="OffenseSide" type="Node2D" parent="Positions"]
+
+[node name="Pos1" parent="Positions/OffenseSide" instance=ExtResource("4_ko3f7")]
+position = Vector2(350, 413)
+
+[node name="Pos2" parent="Positions/OffenseSide" instance=ExtResource("4_ko3f7")]
+position = Vector2(228, 567)
+
+[node name="Pos3" parent="Positions/OffenseSide" instance=ExtResource("4_ko3f7")]
+position = Vector2(388, 703)
+
+[node name="DeffenseSide" type="Node2D" parent="Positions"]
+
+[node name="Pos1" parent="Positions/DeffenseSide" instance=ExtResource("4_ko3f7")]
+position = Vector2(1539, 426)
+rotation = 3.14159
+scale = Vector2(0.9, -0.9)
+
+[node name="Label" parent="Positions/DeffenseSide/Pos1" index="1"]
+offset_left = 38.8889
+offset_right = 108.889
+scale = Vector2(-1, 1)
+
+[node name="Pos2" parent="Positions/DeffenseSide" instance=ExtResource("4_ko3f7")]
+position = Vector2(1644, 580)
+rotation = 3.14159
+scale = Vector2(0.9, -0.9)
+
+[node name="Label" parent="Positions/DeffenseSide/Pos2" index="1"]
+offset_left = 38.8887
+offset_right = 108.889
+scale = Vector2(-1, 1)
+
+[node name="Pos3" parent="Positions/DeffenseSide" instance=ExtResource("4_ko3f7")]
+position = Vector2(1522, 716)
+rotation = 3.14159
+scale = Vector2(0.9, -0.9)
+
+[node name="Label" parent="Positions/DeffenseSide/Pos3" index="1"]
+offset_left = 36.6665
+offset_right = 106.667
+scale = Vector2(-1, 1)
+
+[node name="CombatUnits" type="Node2D" parent="."]
+
+[node name="FloatingText" parent="." instance=ExtResource("4_oc8op")]
+offset_left = -904.5
+offset_top = -516.0
+offset_right = -904.5
+offset_bottom = -516.0
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[editable path="Positions/DeffenseSide/Pos1"]
+[editable path="Positions/DeffenseSide/Pos2"]
+[editable path="Positions/DeffenseSide/Pos3"]
+[editable path="FloatingText"]

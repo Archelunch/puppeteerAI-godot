@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Core Loop for Mercenary Simulator</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+
+<script>
+const data = {
+  name: 'Main Menu',
+  children: [
+    {
+      name: 'Mission Select',
+      children: [
+        { name: 'Combat' },
+        { name: 'Unit Management', children: [
+          { name: 'Skills and Traits' },
+          { name: 'Equipment' },
+          { name: 'Roster' }
+        ]}
+      ]
+    },
+    {
+      name: 'Mercenary Roster'
+    },
+    {
+      name: 'Faction Network',
+      children: [
+        { name: 'Diplomacy' },
+        { name: 'Alliance Building' },
+        { name: 'Information Gathering' }
+      ]
+    }
+  ]
+};
+
+const width = 600;
+const height = 400;
+const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
+const svg = d3.select('body')
+  .append('svg')
+  .attr('width', width)
+  .attr('height', height);
+
+const treeLayout = d3.tree().size([height - margin.top - margin.bottom, width - margin.left - margin.right]);
+const root = d3.hierarchy(data);
+const tree = treeLayout(root);
+
+const g = svg.append('g')
+  .attr('transform', `translate(${margin.left},${margin.top})`);
+
+const link = g.selectAll('.link')
+  .data(tree.links())
+  .enter().append('path')
+    .attr('class', 'link')
+    .attr('d', d3.linkHorizontal()
+      .x(d => d.y)
+      .y(d => d.x));
+
+const node = g.selectAll('.node')
+  .data(tree.descendants())
+  .enter().append('g')
+    .attr('class', 'node')
+    .attr('transform', d => `translate(${d.y},${d.x})`);
+
+node.append('circle')
+  .attr('r', 6);
+
+node.append('text')
+  .attr('x', d => d.children ? -10 : 10)
+  .attr('text-anchor', d => d.children ? 'end' : 'start')
+  .text(d => d.data.name);
+
+</script>
+
+</body>
+</html>

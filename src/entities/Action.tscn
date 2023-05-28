@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://djmto6i1ckyw2"]
+
+[ext_resource type="Script" path="res://src/entities/Action.gd" id="1_r2urr"]
+
+[node name="Action" type="Node2D"]
+script = ExtResource("1_r2urr")
+
+[node name="Effects" type="Node" parent="."]
+
+[node name="SelfEffects" type="Node" parent="."]

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://c4rvlewr2ui5n"]
+
+[node name="Buff" type="Node2D"]
