@@ -20,6 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2mytb")
 scene = "Battle"
+scene2 = "TownDialog"
 clickable = true
 
 [node name="Control" type="Control" parent="."]

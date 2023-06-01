@@ -1,6 +1,7 @@
 extends Node
 
 @export var scene: String
+@export var scene2: String
 @export var fade_out_speed: float = 0.5
 @export var fade_in_speed: float = 0.5
 @export var fade_out_pattern: String = "fade"
@@ -55,10 +56,11 @@ func exiting_dialog(params):
 	enter_dialog.visible = false
 	self.cur_area = {}
 
-
 func _on_yes_button_pressed():
 	if "type" in self.cur_area:
 		if self.cur_area["type"] == "battle":
 			SceneManager.change_scene(scene, fade_out_options, fade_in_options, general_options)
 		else:
-			print(self.cur_area)
+			var town_ui = SceneManager.create_scene_instance(scene2)
+			self.add_child(town_ui)
+			town_ui.entering_town(self.cur_area)
