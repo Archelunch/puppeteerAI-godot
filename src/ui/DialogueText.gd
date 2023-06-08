@@ -10,18 +10,16 @@ var tween = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	EventBus.subscribe("create_damage_label", self, "create_damage_label")
+	EventBus.subscribe("create_text_label", self, "create_text_label")
 
-func create_damage_label(values):
+	
+func create_text_label(values):
 	tween = create_tween()
 	self.position = values['position']
 	l.position.x = 0
 	l.position.y = 0
-	l.text = str(values['damage'])
+	l.text = str(values['text']).replace('"', '')
 	color = values['color']
-	var movement = travel.rotated(randf_range(-spread/2, spread/2))
 	l.modulate = color
-	tween.tween_property(l, "position", l.position + movement, duration)
-	tween.tween_property(l, "modulate:a", 0.0, duration)
-	
+	tween.tween_property(l, "modulate:a", 0.0, 4)
 

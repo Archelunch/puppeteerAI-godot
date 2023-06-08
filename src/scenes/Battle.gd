@@ -3,9 +3,29 @@ extends Node2D
 signal change_scene(new_scene_key)
 
 @onready var text_log = $BattleUI/MarginContainer/LogBackground/Log
-
+@onready var battle_log = $BattleUI/MarginContainer2/LogBackground/BattleLogs
+@onready var command_field = $BattleUI/MarginContainer3/CommandField
+@onready var back_btn = $BattleUI/MarginContainer4/BackTo
 @export_group("Log Properties")
 @export_range(0, 1) var text_timer: float = 0.8
+
+@export var fade_out_speed: float = 0.5
+@export var fade_in_speed: float = 0.5
+@export var fade_out_pattern: String = "fade"
+@export var fade_in_pattern: String = "fade"
+@export var fade_out_smoothness = 0.1 # (float, 0, 1)
+@export var fade_in_smoothness = 0.1 # (float, 0, 1)
+@export var fade_out_inverted: bool = false
+@export var fade_in_inverted: bool = false
+@export var color: Color = Color(0, 0, 0)
+@export var timeout: float = 0.0
+@export var clickable: bool = false
+@export var add_to_back: bool = true
+
+
+@onready var fade_out_options = SceneManager.create_options(fade_out_speed, fade_out_pattern, fade_out_smoothness, fade_out_inverted)
+@onready var fade_in_options = SceneManager.create_options(fade_in_speed, fade_in_pattern, fade_in_smoothness, fade_in_inverted)
+@onready var general_options = SceneManager.create_general_options(color, timeout, clickable, add_to_back)
 
 var unit_reference = load("res://src/entities/CombatUnit.gd")
 
@@ -19,17 +39,18 @@ var initiative_order = []
 
 # Turn count
 var turn_count = 0
+var command = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-		# Signal connection
+	# Signal connection
 	EventBus.subscribe("ai_action_chosen", self, "execute_action")
 	EventBus.subscribe("create_popup_at", self, "create_combatant_popup_at")
 	EventBus.subscribe("show_enemy_action", self, "show_text")
 	
 	EventBus.subscribe("remove_combatant_from_queue", self, "remove_combatant_from_queue")
 	EventBus.subscribe("remove_combatant_ui", self, "remove_combatant_ui")
-	
+	EventBus.subscribe("update_battle_log", self, "update_battle_log")
 	randomize()
 	text_log.visible_ratio = 0
 	
@@ -40,48 +61,78 @@ func _ready():
 			"position": $Positions/OffenseSide/Pos1.global_position,
 			"current_hp": null,
 			"battle_name": Constants.default_names[0],
-			"traits": AITexts.trait_type["kind-hearted"],
-			"mission": AITexts.mission_type["kill_bandits"]
-		}, {
+			"traits": AITexts.trait_type["cruel"],
+			"other_traits": AITexts.other_trait_type["cruel"],
+			"mission": AITexts.mission_type["kill_bandits"]},
+		{
 			"id": "junior",
 			"position": $Positions/OffenseSide/Pos2.global_position,
 			"current_hp": null,
 			"battle_name": Constants.default_names[1],
-			"traits": AITexts.trait_type["kind-hearted"],
+			"traits": AITexts.trait_type["coward"],
+			"other_traits": AITexts.other_trait_type["coward"],
 			"mission": AITexts.mission_type["kill_bandits"]
-		}, {
+		}, 
+		{
 			"id": "assassin",
 			"position": $Positions/OffenseSide/Pos3.global_position,
 			"current_hp": null,
 			"battle_name": Constants.default_names[2],
 			"traits": AITexts.trait_type["cruel"],
+			"other_traits": AITexts.other_trait_type["cruel"],
 			"mission": AITexts.mission_type["kill_bandits"]
-		}],
+		}, 
+		{
+			"id": "mercenary",
+			"position": $Positions/OffenseSide/Pos4.global_position,
+			"current_hp": null,
+			"battle_name": Constants.default_names[6],
+			"traits": AITexts.trait_type["cruel"],
+			"other_traits": AITexts.other_trait_type["cruel"],
+			"mission": AITexts.mission_type["kill_bandits"]
+		}
+		],
 		"type": Constants.PlayerType.Player
 	}, {
 		"id": Constants.PlayerId_Enemy,
-		"combatants": [{
+		"combatants": [
+			{
 			"id": "rogue",
 			"position": $Positions/DeffenseSide/Pos1.global_position,
 			"current_hp": null,
 			"battle_name": Constants.default_names[3],
 			"traits": AITexts.trait_type["cruel"],
+			"other_traits": AITexts.other_trait_type["cruel"],
 			"mission": AITexts.mission_type["defend_group"]
-		}, {
+		}, 
+		{
 			"id": "butcher",
 			"position": $Positions/DeffenseSide/Pos2.global_position,
 			"current_hp": null,
 			"battle_name": Constants.default_names[4],
 			"traits": AITexts.trait_type["cruel"],
+			"other_traits": AITexts.other_trait_type["cruel"],
 			"mission": AITexts.mission_type["defend_group"]
-		}, {
-			"id": "rogue",
+		}, 
+		{
+			"id": "warrior",
 			"position": $Positions/DeffenseSide/Pos3.global_position,
 			"current_hp": null,
 			"battle_name": Constants.default_names[5],
 			"traits": AITexts.trait_type["coward"],
+			"other_traits": AITexts.other_trait_type["coward"],
 			"mission": AITexts.mission_type["defend_group"]
-		}],
+		}, 
+		{
+			"id": "warrior",
+			"position": $Positions/DeffenseSide/Pos4.global_position,
+			"current_hp": null,
+			"battle_name": Constants.default_names[7],
+			"traits": AITexts.trait_type["coward"],
+			"other_traits": AITexts.other_trait_type["coward"],
+			"mission": AITexts.mission_type["defend_group"]
+		}
+		],
 		"type": Constants.PlayerType.AI
 	})
 	
@@ -101,6 +152,7 @@ func prepare_battle(player_team, enemy_team):
 	for combatant_number in player_team.combatants.size():
 		var combatant = player_team.combatants[combatant_number]
 		var combatant_pos = $Positions/OffenseSide.get_children()[combatant_number]
+		combatant_pos.visible = true
 		var new_combatant = create_combatant(combatant_pos, combatant.id, combatant.position, combatant.current_hp, combatant.battle_name, combatant.traits, combatant.mission)
 		new_combatant.player_id = player_team.id
 		player_combatants.append(new_combatant)
@@ -118,6 +170,7 @@ func prepare_battle(player_team, enemy_team):
 	for combatant_number in enemy_team.combatants.size():
 		var combatant = enemy_team.combatants[combatant_number]
 		var combatant_pos = $Positions/DeffenseSide.get_children()[combatant_number]
+		combatant_pos.visible = true
 		var new_combatant = create_combatant(combatant_pos, combatant.id, combatant.position, combatant.current_hp, combatant.battle_name, combatant.traits, combatant.mission)
 		new_combatant.player_id = enemy_team.id
 		enemy_combatants.append(new_combatant)
@@ -164,6 +217,7 @@ func create_combatant(combotant, combatant_id, combatant_position, current_hp = 
 func show_text(value):
 	text_log.visible_ratio = 0
 	text_log.text = value
+	update_battle_log(value)
 	var tween = create_tween()
 	tween.tween_property(text_log, "visible_ratio", 1.1, text_timer)
 	
@@ -174,16 +228,17 @@ func start_turn():
 	
 	# Increse the turn counter
 	turn_count += 1
-#	$UI/TurnCounter.text = str("Turn: ", turn_count)
+	$BattleUI/TurnLabel.text = str("Turn: ", turn_count)
 #
 	show_text(str("Turn ", turn_count, " starts!"))
+	command = ""
 	await get_tree().create_timer(1.5).timeout
 	
 	reset_text()
 	
 	# Roll and assigned initiative to every active combatant
 	for combatant in $Positions/OffenseSide.get_children():
-		if combatant.is_dead():
+		if combatant.is_dead() or not combatant.visible:
 			continue
 		var initiative = combatant.get_initiative()
 		initiative_order.append({
@@ -191,7 +246,7 @@ func start_turn():
 			"initiative": initiative
 		})
 	for combatant in $Positions/DeffenseSide.get_children():
-		if combatant.is_dead():
+		if combatant.is_dead() or not combatant.visible:
 			continue
 		var initiative = combatant.get_initiative()
 		initiative_order.append({
@@ -215,7 +270,7 @@ func go_to_next_combatant():
 		
 		# get the current combatant
 		var current_combatant = initiative_order.pop_front().combatant
-		
+		current_combatant.set_shader_value(Color("#e8b100"))
 		# show that combatant initiative hint
 		
 		# Check DoT status and apply them
@@ -240,10 +295,12 @@ func go_to_next_combatant():
 		
 		if current_combatant.player_id == player.id:
 			# if it's a player combatant, show the ui
-			player.choose_action(current_combatant)
+#			player.choose_action(current_combatant)
+			player.choose_action_lm(current_combatant, command)
 		else:
 			# if it's a enemy combatant, the player ai, chooses an action
-			opponent.choose_action(current_combatant)
+#			opponent.choose_action(current_combatant)
+			opponent.choose_action_lm(current_combatant)
 	else:
 		# if no other combatant is left, start a new turn
 		start_turn()
@@ -279,6 +336,7 @@ func execute_action(params):
 #			create_effect(target.global_position, load("res://src/effects/HitEffect001.tscn"))
 			
 			target.inflict_damage(action_damage)
+			
 		
 		# if the action has effects, apply them to all the targets
 		for effect in action.get_effects():
@@ -295,6 +353,8 @@ func execute_action(params):
 	# Check if the battle is over, otherwise go to the next combatant
 	if !is_battle_over():
 		await get_tree().create_timer(1.2).timeout
+		if acting_combatant:
+			acting_combatant.set_shader_value(Color("#242424"))
 		go_to_next_combatant()
 
 # Check if one of the parties has been defeated
@@ -302,22 +362,44 @@ func is_battle_over():
 	# Check player team
 	var player_team_is_defeated = true
 	for combatant in $Positions/OffenseSide.get_children():
+		if not combatant.visible:
+			continue
 		if combatant.player_id == player.id && !combatant.is_dead():
 			player_team_is_defeated = false
 	
 	# Check enemy team
 	var enemy_team_is_defeated = true
 	for combatant in $Positions/DeffenseSide.get_children():
+		if not combatant.visible:
+			continue
 		if combatant.player_id != player.id && !combatant.is_dead():
 			enemy_team_is_defeated = false
-	
-	if player_team_is_defeated && enemy_team_is_defeated:
-		show_text("That's a tie!")
-	elif enemy_team_is_defeated:
+	if enemy_team_is_defeated:
 		show_text("You won!")
+		back_btn.visible = true
 	elif player_team_is_defeated:
 		show_text("You lost!")
+		back_btn.visible = true
 	
 	return player_team_is_defeated || enemy_team_is_defeated
 
+func update_battle_log(value: String):
+	var txt = battle_log.text
+	var txt_array = txt.split("\n")
+	txt_array.append(value)
+	if txt_array.size() > 50:
+		txt_array = txt_array.slice(txt_array.size()-50)
+	txt_array = PackedStringArray(txt_array)
+	battle_log.text = "\n".join(txt_array)
 
+
+func _on_button_pressed():
+	if command_field.text.strip_edges().strip_escapes() != "":
+		update_battle_log("You command: " + command_field.text)
+		command = command_field.text
+		command_field.text = ""
+
+
+func _on_back_to_pressed():
+	var gbm = SceneManager.get_previous_scene()
+	SceneManager.change_scene(gbm, fade_out_options, fade_in_options, general_options)

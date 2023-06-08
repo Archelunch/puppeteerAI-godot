@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://d8irt52bjfos"]
+
+[ext_resource type="Script" path="res://src/gpt/AIManager.gd" id="1_caxkw"]
+
+[node name="AIManager" type="Node"]
+script = ExtResource("1_caxkw")
+datasources = Array[String](["https://www.notion.so/6bf390798419427398c5f1f986cad2f2?v=f82709771be94d2a838186d1257e8fe2&pvs=4"])
+
+[node name="GPTRequest" type="HTTPRequest" parent="."]
+
+[node name="BARTRequest" type="HTTPRequest" parent="."]

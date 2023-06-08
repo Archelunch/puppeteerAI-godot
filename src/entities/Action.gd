@@ -20,6 +20,8 @@ func _ready():
 # Uses a dictionary value from the list action_data in Database.gd
 func init(data):
 	action_name = data.name
+	if action_name == "Escape":
+		is_escape = true
 	
 	target = data.target
 	if data.has("damage_percentage"):

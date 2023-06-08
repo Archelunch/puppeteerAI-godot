@@ -1,10 +1,82 @@
-[gd_scene load_steps=6 format=3 uid="uid://bhyet77w3ytdl"]
+[gd_scene load_steps=13 format=3 uid="uid://bhyet77w3ytdl"]
 
 [ext_resource type="Script" path="res://src/scenes/Battle.gd" id="1_28e3e"]
 [ext_resource type="FontVariation" uid="uid://d2b8bo6ytpt2i" path="res://assets/fonts/default_bold.tres" id="1_u2sdt"]
-[ext_resource type="Texture2D" uid="uid://bjhwlh6unwxp4" path="res://assets/ui/Backgrounds/game_background_1.png" id="2_am7mg"]
+[ext_resource type="Texture2D" uid="uid://2nghtg6a5wkc" path="res://assets/ui/Backgrounds/00024-3060914006_digital_art_x4.jpg" id="2_ahfbn"]
 [ext_resource type="PackedScene" uid="uid://43m8qbo7e31l" path="res://src/entities/CombatUnit.tscn" id="4_ko3f7"]
 [ext_resource type="PackedScene" uid="uid://bdo2ywqfdg436" path="res://src/ui/FloatingText.tscn" id="4_oc8op"]
+[ext_resource type="PackedScene" uid="uid://d8irt52bjfos" path="res://src/gpt/AIManager.tscn" id="6_u814j"]
+[ext_resource type="PackedScene" uid="uid://d3qvc1d77grrj" path="res://src/ui/DialogueText.tscn" id="7_jjcuq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_nbkm8"]
+line_spacing = 10.0
+font_size = 24
+
+[sub_resource type="FontFile" id="FontFile_xu0et"]
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/100/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/20/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/40/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/100/0/ascent = 0.0
+cache/0/100/0/descent = 0.0
+cache/0/100/0/underline_position = 0.0
+cache/0/100/0/underline_thickness = 0.0
+cache/0/100/0/scale = 1.0
+cache/0/100/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/100/0/kerning_overrides/100/0 = Vector2(0, 0)
+cache/0/100/0/kerning_overrides/20/0 = Vector2(0, 0)
+cache/0/100/0/kerning_overrides/40/0 = Vector2(0, 0)
+cache/0/100/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
+cache/0/20/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/20/0/kerning_overrides/100/0 = Vector2(0, 0)
+cache/0/20/0/kerning_overrides/20/0 = Vector2(0, 0)
+cache/0/20/0/kerning_overrides/40/0 = Vector2(0, 0)
+cache/0/20/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/40/0/ascent = 0.0
+cache/0/40/0/descent = 0.0
+cache/0/40/0/underline_position = 0.0
+cache/0/40/0/underline_thickness = 0.0
+cache/0/40/0/scale = 1.0
+cache/0/40/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/40/0/kerning_overrides/100/0 = Vector2(0, 0)
+cache/0/40/0/kerning_overrides/20/0 = Vector2(0, 0)
+cache/0/40/0/kerning_overrides/40/0 = Vector2(0, 0)
+cache/0/40/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/32/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/100/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/20/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/40/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/32/0 = Vector2(0, 0)
+
+[sub_resource type="Theme" id="Theme_23i67"]
+default_font = SubResource("FontFile_xu0et")
+default_font_size = 32
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_bkbpw"]
+blend_mode = 2
+light_mode = 1
+
+[sub_resource type="Theme" id="Theme_iyb4c"]
+default_font_size = 30
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_28e3e")
@@ -18,9 +90,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Background" type="Sprite2D" parent="BattleUI"]
-position = Vector2(961, 539.5)
-scale = Vector2(0.499479, 0.500463)
-texture = ExtResource("2_am7mg")
+position = Vector2(951, 548)
+scale = Vector2(0.625, 0.537109)
+texture = ExtResource("2_ahfbn")
 
 [node name="MarginContainer" type="MarginContainer" parent="BattleUI"]
 layout_mode = 0
@@ -47,6 +119,78 @@ visible_characters = 0
 visible_characters_behavior = 1
 visible_ratio = 0.0
 
+[node name="MarginContainer2" type="MarginContainer" parent="BattleUI"]
+layout_mode = 0
+offset_left = 1317.0
+offset_right = 1908.0
+offset_bottom = 207.0
+
+[node name="LogBackground" type="ColorRect" parent="BattleUI/MarginContainer2"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BattleLogs" type="RichTextLabel" parent="BattleUI/MarginContainer2/LogBackground"]
+layout_mode = 2
+offset_top = 29.0
+offset_right = 473.0
+offset_bottom = 192.0
+scroll_following = true
+
+[node name="TurnLabel" type="Label" parent="BattleUI"]
+layout_mode = 0
+offset_left = 1790.0
+offset_right = 1897.0
+offset_bottom = 55.0
+text = "TURN: 10"
+label_settings = SubResource("LabelSettings_nbkm8")
+
+[node name="MarginContainer3" type="MarginContainer" parent="BattleUI"]
+layout_mode = 0
+offset_left = 1318.0
+offset_top = 207.0
+offset_right = 1734.0
+offset_bottom = 282.0
+
+[node name="LogBackground" type="ColorRect" parent="BattleUI/MarginContainer3"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.686275)
+
+[node name="BattleLogs" type="RichTextLabel" parent="BattleUI/MarginContainer3/LogBackground"]
+layout_mode = 2
+offset_top = 29.0
+offset_right = 473.0
+offset_bottom = 192.0
+scroll_following = true
+
+[node name="Button" type="Button" parent="BattleUI/MarginContainer3/LogBackground"]
+layout_mode = 2
+offset_left = 414.0
+offset_right = 520.0
+offset_bottom = 75.0
+text = "✓"
+
+[node name="CommandField" type="TextEdit" parent="BattleUI/MarginContainer3"]
+layout_mode = 2
+theme = SubResource("Theme_23i67")
+placeholder_text = "Your command is"
+context_menu_enabled = false
+scroll_fit_content_height = true
+
+[node name="MarginContainer4" type="MarginContainer" parent="BattleUI"]
+layout_mode = 0
+offset_left = 710.0
+offset_top = 432.0
+offset_right = 1192.0
+offset_bottom = 540.0
+
+[node name="BackTo" type="Button" parent="BattleUI/MarginContainer4"]
+visible = false
+z_index = 100
+material = SubResource("CanvasItemMaterial_bkbpw")
+layout_mode = 2
+theme = SubResource("Theme_iyb4c")
+text = "BACK TO GLOBAL MAP"
+
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Players" type="Node2D" parent="."]
@@ -56,30 +200,51 @@ visible_ratio = 0.0
 [node name="OffenseSide" type="Node2D" parent="Positions"]
 
 [node name="Pos1" parent="Positions/OffenseSide" instance=ExtResource("4_ko3f7")]
-position = Vector2(350, 413)
+visible = false
+position = Vector2(496, 547)
+unit_name = "Tarun Sawyer"
+max_hp = 50
+max_attack = 10
+protection = 3
+dexterity = 6
+luck = 2
+description = "Assasin from foreign country"
+traits = "Coward"
+other_traits = "Chaotic"
 
 [node name="Pos2" parent="Positions/OffenseSide" instance=ExtResource("4_ko3f7")]
-position = Vector2(228, 567)
+visible = false
+position = Vector2(314, 695)
+unit_name = ""
 
 [node name="Pos3" parent="Positions/OffenseSide" instance=ExtResource("4_ko3f7")]
-position = Vector2(388, 703)
+visible = false
+position = Vector2(610, 721)
+
+[node name="Pos4" parent="Positions/OffenseSide" instance=ExtResource("4_ko3f7")]
+visible = false
+position = Vector2(766, 589)
+unit_name = ""
 
 [node name="DeffenseSide" type="Node2D" parent="Positions"]
 
 [node name="Pos1" parent="Positions/DeffenseSide" instance=ExtResource("4_ko3f7")]
-position = Vector2(1539, 426)
+visible = false
+position = Vector2(1196, 519)
 rotation = 3.14159
-scale = Vector2(0.9, -0.9)
+scale = Vector2(0.45, -0.45)
 
 [node name="Label" parent="Positions/DeffenseSide/Pos1" index="1"]
 offset_left = 38.8889
 offset_right = 108.889
 scale = Vector2(-1, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="Pos2" parent="Positions/DeffenseSide" instance=ExtResource("4_ko3f7")]
-position = Vector2(1644, 580)
+visible = false
+position = Vector2(1432, 509)
 rotation = 3.14159
-scale = Vector2(0.9, -0.9)
+scale = Vector2(0.45, -0.45)
 
 [node name="Label" parent="Positions/DeffenseSide/Pos2" index="1"]
 offset_left = 38.8887
@@ -87,11 +252,33 @@ offset_right = 108.889
 scale = Vector2(-1, 1)
 
 [node name="Pos3" parent="Positions/DeffenseSide" instance=ExtResource("4_ko3f7")]
-position = Vector2(1522, 716)
+visible = false
+position = Vector2(1272, 683)
 rotation = 3.14159
-scale = Vector2(0.9, -0.9)
+scale = Vector2(0.45, -0.45)
+unit_name = "Jack"
+description = "Leader"
+traits = "coward"
+other_traits = "berserk"
+mission = "to survive"
 
 [node name="Label" parent="Positions/DeffenseSide/Pos3" index="1"]
+offset_left = 36.6665
+offset_right = 106.667
+scale = Vector2(-1, 1)
+
+[node name="Pos4" parent="Positions/DeffenseSide" instance=ExtResource("4_ko3f7")]
+visible = false
+position = Vector2(1045, 718)
+rotation = 3.14159
+scale = Vector2(0.45, -0.45)
+unit_name = "Jack"
+description = "Leader"
+traits = "coward"
+other_traits = "berserk"
+mission = "to survive"
+
+[node name="Label" parent="Positions/DeffenseSide/Pos4" index="1"]
 offset_left = 36.6665
 offset_right = 106.667
 scale = Vector2(-1, 1)
@@ -99,14 +286,28 @@ scale = Vector2(-1, 1)
 [node name="CombatUnits" type="Node2D" parent="."]
 
 [node name="FloatingText" parent="." instance=ExtResource("4_oc8op")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 offset_left = -904.5
 offset_top = -516.0
 offset_right = -904.5
 offset_bottom = -516.0
+grow_horizontal = 1
+grow_vertical = 1
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="DialogueText" parent="." instance=ExtResource("7_jjcuq")]
+
+[node name="AIManager" parent="." instance=ExtResource("6_u814j")]
+OPENAI_KEY = "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"
+bart_url = "https://00f1-31-145-63-202.ngrok-free.app/resolve"
+
+[connection signal="pressed" from="BattleUI/MarginContainer3/LogBackground/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="BattleUI/MarginContainer4/BackTo" to="." method="_on_back_to_pressed"]
 
 [editable path="Positions/DeffenseSide/Pos1"]
 [editable path="Positions/DeffenseSide/Pos2"]
 [editable path="Positions/DeffenseSide/Pos3"]
+[editable path="Positions/DeffenseSide/Pos4"]
 [editable path="FloatingText"]
+[editable path="DialogueText"]

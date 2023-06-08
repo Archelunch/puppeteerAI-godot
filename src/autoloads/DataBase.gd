@@ -11,8 +11,8 @@ const combat_units_data = {
 		"luck": 2,
 		"max_hp": 30,
 		"description": "leader of mercenaries",
-		"actions": ["basic_attack", "basic_heal", "group_heal"],
-		"sprite": "res://assets/sprites/Units/Boss Mythical Knight Goldnharl.png"
+		"actions": ["basic_attack", "group_attack", "basic_heal", "group_heal", "escape"],
+		"sprite": "res://assets/sprites/Units/new_style/warrior1.png"
 	},
 	"junior": {
 		"name": "Junior",
@@ -23,8 +23,8 @@ const combat_units_data = {
 		"luck": 2,
 		"max_hp": 20,
 		"description": "newbie in this crew.",
-		"actions": ["basic_attack", "basic_heal"],
-		"sprite": "res://assets/sprites/Units/Medieval Bandit Child.png"
+		"actions": ["basic_attack", "basic_heal", "escape"],
+		"sprite": "res://assets/sprites/Units/new_style/rogue1.png"
 	},
 	"rogue": {
 		"name": "Rogue",
@@ -35,8 +35,8 @@ const combat_units_data = {
 		"luck": 2,
 		"max_hp": 10,
 		"description": "professional assasin",
-		"actions": ["basic_attack"],
-		"sprite": "res://assets/sprites/Units/Rogue Dagger Monk.png"
+		"actions": ["basic_attack", "escape"],
+		"sprite": "res://assets/sprites/Units/new_style/assassin1.png"
 	},
 	"butcher": {
 		"name": "Butcher",
@@ -47,8 +47,8 @@ const combat_units_data = {
 		"luck": 2,
 		"max_hp": 30,
 		"description": "strong warrior and leader of bandits.",
-		"actions": ["basic_attack"],
-		"sprite": "res://assets/sprites/Units/Medieval Bandit Dagger Gun.png"
+		"actions": ["basic_attack", "group_attack", "basic_heal", "escape"],
+		"sprite": "res://assets/sprites/Units/new_style/warrior2.png"
 	},
 	"assassin": {
 		"name": "Assassin",
@@ -59,9 +59,33 @@ const combat_units_data = {
 		"luck": 2,
 		"max_hp": 10,
 		"description": "professional assasin.",
-		"actions": ["basic_attack", "group_attack"],
-		"sprite": "res://assets/sprites/Units/Medieval Bandit Great Sword.png"
+		"actions": ["basic_attack", "group_attack", "escape"],
+		"sprite": "res://assets/sprites/Units/new_style/barbarian1.png"
 	},
+	"warrior": {
+		"name": "Warrior",
+		"min_attack": 5,
+		"max_attack": 8,
+		"dexterity": 4,
+		"protection": 10,
+		"luck": 2,
+		"max_hp": 10,
+		"description": "professional warrior.",
+		"actions": ["basic_attack", "group_attack", "basic_heal", "group_heal", "escape"],
+		"sprite": "res://assets/sprites/Units/new_style/warrior5.png"
+	},
+	"mercenary": {
+		"name": "Mercenary",
+		"min_attack": 5,
+		"max_attack": 8,
+		"dexterity": 4,
+		"protection": 10,
+		"luck": 2,
+		"max_hp": 10,
+		"description": "professional mercenary.",
+		"actions": ["basic_attack", "group_attack", "basic_heal", "escape"],
+		"sprite": "res://assets/sprites/Units/new_style/warrior5.png"
+	}
 	}
 
 const action_data = {
@@ -95,6 +119,7 @@ const action_data = {
 		},
 	"escape": {
 		"name": "Escape",
+		"description": "Escape and save youself",
 		"max_uses": 1,
 		"target": Constants.ActionTarget_Self
 	}

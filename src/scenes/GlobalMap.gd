@@ -61,6 +61,7 @@ func _on_yes_button_pressed():
 		if self.cur_area["type"] == "battle":
 			SceneManager.change_scene(scene, fade_out_options, fade_in_options, general_options)
 		else:
+			print(scene2)
 			var town_ui = SceneManager.create_scene_instance(scene2)
 			self.add_child(town_ui)
 			town_ui.entering_town(self.cur_area)

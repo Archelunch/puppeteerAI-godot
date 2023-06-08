@@ -30,10 +30,12 @@ Scenes="*res://addons/scene_manager/scenes.gd"
 
 window/size/viewport_width=1900
 window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dice_syntax/plugin.cfg", "res://addons/dictionary_inspector/plugin.cfg", "res://addons/inspector_extender/plugin.cfg", "res://addons/scene_manager/plugin.cfg")
+disabled=PackedStringArray("res://addons/dice_syntax/plugin.cfg", "res://addons/dictionary_inspector/plugin.cfg", "res://addons/inspector_extender/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/puppeteerAI/plugin.cfg")
+enabled=PackedStringArray("res://addons/scene_manager/plugin.cfg", "res://addons/puppeteerAI/plugin.cfg", "res://addons/inspector_extender/plugin.cfg", "res://addons/dictionary_inspector/plugin.cfg", "res://addons/dice_syntax/plugin.cfg")
 
 [input]
 

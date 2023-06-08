@@ -1,8 +1,8 @@
 extends Node
 
 const own_health_check = {
-	"100%": "You are totally okay and ready for battle. You don't need healing.",
-	"75%": "You are slightly injured. You can continue battle without healing.",
+	"100%": "You are totally okay and ready for battle. You don't need healing and escaping.",
+	"75%": "You are slightly injured. You can continue battle without healing end escaping.",
 	"40%": "You have serious wounds. You can continue battle, but healing would be awesome.",
 	"0%": "You are in danger. You will probably die without healing."
 }
@@ -25,5 +25,13 @@ const trait_type = {
 	"kind-hearted": "You are a kind-hearted pearson. Your priority is to save your allies' lifes.",
 	"cruel": "You were made for battles. Your only goal is to kill everyone.",
 	"coward": "You are coward. Your own survival is your top priority.",
+	"empty": ""
+}
+
+
+const other_trait_type = {
+	"kind-hearted": "He is a kind-hearted pearson.",
+	"cruel": "He was made for battles.",
+	"coward": "He is coward.",
 	"empty": ""
 }

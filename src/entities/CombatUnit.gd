@@ -3,19 +3,25 @@ extends Node2D
 var action_reference = load("res://src/entities/Action.tscn")
 @export var unit_name = "Missing string"
 
+@export_group("Attributes")
 var current_hp = 1
-var max_hp = 1
+@export var max_hp = 1
 
 var min_attack = 1
-var max_attack = 1
+@export var max_attack = 1
 
-var protection = 0
-var dexterity = 1
-var luck = 1
+@export var protection = 0
+@export var dexterity = 1
+@export var luck = 1
 
+@export_group("Traits")
 @export var description = ""
 @export var traits = ""
+@export var other_traits = ""
+
+@export_group("Debug")
 @export var mission = ""
+
 
 var player_id = ""
 
@@ -31,6 +37,7 @@ signal buffs_changed()
 func _ready():
 	randomize()
 	fixed_position = get_global_position()
+	EventBus.subscribe("gpt_result", self, "dialog_bubble")
 
 func init(data, starting_position):
 	
@@ -46,10 +53,13 @@ func init(data, starting_position):
 	if (data.has("sprite")):
 		var sprite_texture = load(data.sprite)
 		unit_sprite.set_texture(sprite_texture)
+		unit_sprite.material = unit_sprite.material.duplicate()
 	
 	description = data.description
 	if (data.has("traits")):
 		traits = data.traits
+	if (data.has("other_traits")):
+		other_traits = data.other_traits
 	if (data.has("mission")):
 		mission = data.mission
 	
@@ -133,7 +143,6 @@ func inflict_damage(damage):
 		current_hp = max(-50, current_hp - damage)
 		if current_hp <= 0:
 			die()
-			EventBus.publish("remove_combatant_from_queue", self)
 	elif player_id == Constants.PlayerId_Enemy:
 		current_hp = max(0, current_hp - damage)
 		if current_hp == 0:
@@ -150,8 +159,31 @@ func heal_hp(amount):
 		if was_ko:
 			EventBus.publish("combatant_revived", self)
 	var label_dict = {'damage': amount, 'position': global_position + Vector2(0, -20), 'color': Color("2cb744")}
+	unit_sprite.material.set_shader_parameter("line_color", Color("#1ab100"))
 	EventBus.publish("create_damage_label", label_dict)
 	emit_signal("combatant_hp_changed", current_hp, max_hp)
+
+func set_shader_tween_damage():
+	var tween = create_tween()
+	tween.tween_method(set_shader_value, Color("#ee2424"), Color("#242424"), 3.5)
+	
+func set_shader_tween_heal():
+	var tween = create_tween()
+	tween.tween_method(set_shader_value, Color("#1ab100"), Color("#242424"), 3.5)
+
+# tween value automatically gets passed into this function
+func set_shader_value(value: Color):
+	# in my case i'm tweening a shader on a texture rect, but you can use anything with a material on it
+	unit_sprite.material.set_shader_parameter("line_color", value)
+
+func dialog_bubble(params):
+	if unit_name == params['unit']:
+		var pos = global_position + Vector2(-20, -100)
+		if scale.y < 0:
+			pos = global_position + Vector2(-200, -100)
+
+		var label_dict = {'text': params['text'], 'position': pos, 'color': Color("feb744")}
+		EventBus.publish("create_text_label", label_dict)
 
 func die():
 	EventBus.publish("remove_combatant_from_queue", self)
